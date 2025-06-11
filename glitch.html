@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>the glitch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Glitch background effect */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 255, 255, 0.03) 2px,
+                    rgba(0, 255, 255, 0.03) 4px
+                );
+            pointer-events: none;
+            animation: scanlines 2s linear infinite;
+        }
+
+        @keyframes scanlines {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(20px); }
+        }
+
+        .glitch-image {
+            width: 280px;
+            height: 280px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            object-fit: cover;
+            filter: drop-shadow(0 0 30px rgba(0, 255, 255, 0.3));
+            animation: imageGlitch 3s ease-in-out infinite;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            text-align: center;
+            color: #888;
+            border: 2px solid rgba(0, 255, 255, 0.2);
+        }
+
+        @keyframes imageGlitch {
+            0%, 90%, 100% { transform: translate3d(0, 0, 0); }
+            95% { transform: translate3d(-2px, 0, 0); }
+            97% { transform: translate3d(2px, 0, 0); }
+        }
+
+        .title {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 900;
+            text-transform: lowercase;
+            letter-spacing: 3px;
+            margin-bottom: 50px;
+            text-align: center;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #00ffff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite, textGlitch 4s infinite;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes textGlitch {
+            0%, 90%, 100% { 
+                transform: translate3d(0, 0, 0);
+                filter: hue-rotate(0deg);
+            }
+            92% { 
+                transform: translate3d(-1px, 0, 0);
+                filter: hue-rotate(90deg);
+            }
+            94% { 
+                transform: translate3d(1px, 0, 0);
+                filter: hue-rotate(180deg);
+            }
+            96% { 
+                transform: translate3d(0, 0, 0);
+                filter: hue-rotate(0deg);
+            }
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            font-weight: 400;
+            text-transform: lowercase;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+            text-align: center;
+            color: rgba(0, 255, 255, 0.7);
+            opacity: 0.8;
+            animation: subtitleGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes subtitleGlow {
+            0% { 
+                text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+                opacity: 0.8;
+            }
+            100% { 
+                text-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+                opacity: 1;
+            }
+        }
+
+        .social-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .social-link:hover::before {
+            left: 100%;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px) scale(1.1);
+            border-color: #00ffff;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .social-link svg {
+            width: 28px;
+            height: 28px;
+            fill: #00ffff;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover svg {
+            fill: #ffffff;
+            filter: drop-shadow(0 0 10px #00ffff);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .glitch-image {
+                width: 220px;
+                height: 220px;
+                margin-bottom: 30px;
+            }
+
+            .title {
+                margin-bottom: 40px;
+                letter-spacing: 2px;
+            }
+
+            .subtitle {
+                margin-bottom: 30px;
+                letter-spacing: 1px;
+            }
+
+            .social-links {
+                gap: 30px;
+            }
+
+            .social-link {
+                width: 50px;
+                height: 50px;
+            }
+
+            .social-link svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            .glitch-image {
+                width: 180px;
+                height: 180px;
+                margin-bottom: 25px;
+            }
+
+            .social-links {
+                gap: 25px;
+            }
+
+            .social-link {
+                width: 45px;
+                height: 45px;
+            }
+
+            .social-link svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        /* Floating particles effect */
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00ffff;
+            border-radius: 50%;
+            animation: float 6s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) translateX(0);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) translateX(100px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://res.cloudinary.com/dwxakodta/image/upload/v1749636118/e35a3fcf-58b9-4bae-9d46-bfbc6d97bcc6_qyhk0i.png" alt="the glitch" class="glitch-image">
+
+        <h1 class="title">the glitch (404)</h1>
+
+        <p class="subtitle">meme not found</p>
+
+        <div class="social-links">
+            <a href="https://x.com/theglitch_404?s=21" class="social-link" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+            </a>
+
+            <a href="https://pump.fun" class="social-link" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24">
+                    <!-- Pill shape with gradient -->
+                    <ellipse cx="12" cy="12" rx="9" ry="5" fill="#4ade80" stroke="#374151" stroke-width="1.5"/>
+                    <ellipse cx="12" cy="12" rx="9" ry="5" fill="url(#pillGradient)"/>
+                    <!-- Highlight on the green part -->
+                    <ellipse cx="8" cy="10" rx="2" ry="1" fill="#86efac" opacity="0.6"/>
+                    <!-- Pill divider -->
+                    <line x1="12" y1="7" x2="12" y2="17" stroke="#374151" stroke-width="1.5"/>
+                    <!-- White part -->
+                    <ellipse cx="16" cy="12" rx="4" ry="4.5" fill="#ffffff"/>
+                    <!-- Shadow on white part -->
+                    <ellipse cx="17" cy="13" rx="2" ry="2" fill="#e5e7eb" opacity="0.5"/>
+                    
+                    <defs>
+                        <linearGradient id="pillGradient" x1="0%" y1="0%" x2="50%" y2="0%">
+                            <stop offset="0%" stop-color="#4ade80"/>
+                            <stop offset="100%" stop-color="#ffffff"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Floating particles -->
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 0.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 1.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 2.5s;"></div>
+    </div>
+</body>
+</html>
